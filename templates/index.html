@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netoflix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">NETOFLIX</div>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/movies" class="nav-link">Movies</a>
+        <a href="/tv-shows" class="nav-link">TV Shows</a>
+
+        <div class="search-container">
+            <form action="/" method="get">
+                <input type="text" name="q" class="search-input" placeholder="Titles, genres..." autocomplete="off">
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    {% if not query %}
+    <div class="hero-container">
+        <img src="{{ url_for('static', filename='banner.png') }}" alt="Banner" class="hero-image">
+    </div>
+    {% endif %}
+
+    <div class="main-content" style="padding-bottom: 50px;">
+
+        {% if search_results is defined %}
+            <h2 class="category-title" style="margin-top: 100px;">Search Results for "{{ query }}"</h2>
+            <div class="row-container">
+                <div class="movie-row" style="flex-wrap: wrap;"> 
+                    {% if search_results %}
+                        {% for movie in search_results %}
+                            <div class="video-card" data-id="{{ movie.id }}" style="margin: 10px;">
+                                <img src="{{ movie.thumbnail }}" class="video-thumb" alt="{{ movie.title }}">
+                                <div class="play-icon"></div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="padding-left: 40px; color: gray;">No results found.</p>
+                    {% endif %}
+                </div>
+                <div style="padding: 20px 40px;">
+                    <a href="/" style="color: #E50914; text-decoration: none;">← Back to Home</a>
+                </div>
+            </div>
+
+        {% else %}
+            
+            {% if page_name != "Home" %}
+                <h1 style="padding-left: 40px; margin-top: 100px;">{{ page_name }}</h1>
+            {% endif %}
+
+            {% for category, videos in catalog.items() %}
+                <h2 class="category-title">{{ category }}</h2>
+                
+                <div class="row-container">
+                    <button class="scroll-btn left-btn">‹</button>
+                    
+                    <div class="movie-row">
+                        {% for movie in videos %}
+                            <div class="video-card" data-id="{{ movie.id }}">
+                                <img src="{{ movie.thumbnail }}" class="video-thumb" alt="{{ movie.title }}">
+                                <div class="play-icon"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <button class="scroll-btn right-btn">›</button>
+                </div>
+            {% endfor %}
+
+        {% endif %}
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
