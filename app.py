@@ -4,7 +4,8 @@ from youtubesearchpython import VideosSearch
 app = Flask(__name__)
 
 # --- BACKUP DATA (Used if YouTube Search fails) ---
-# This ensures your website is NEVER empty.
+# This ensures the website is NEVER empty.
+
 BACKUP_DATA = [
     {'title': 'John Wick 4', 'id': 'qEVUtrk8_B4', 'thumbnail': 'https://img.youtube.com/vi/qEVUtrk8_B4/maxresdefault.jpg'},
     {'title': 'Spider-Man 2', 'id': 'cqGjhVJWtEg', 'thumbnail': 'https://img.youtube.com/vi/cqGjhVJWtEg/maxresdefault.jpg'},
